@@ -4,36 +4,47 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ishan Ahmed - Portfolio</title>
-    <!-- Bootstrap CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <!-- Google Fonts -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <!-- Font Awesome for Icons -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <!-- Custom CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <style>
+      :root {
+        /* Light mode variables (default) */
+        --body-bg: #f9fafb;
+        --text-color: #1f2937;
+        --section-bg: #fff;
+        --card-bg: #f9fafb;
+        --card-border: #e5e7eb;
+        --footer-bg: #e5e7eb;
+        --muted-text: #4b5563;
+      }
+
+      /* Dark mode variables */
+      [data-theme="dark"] {
+        --body-bg: #1f2937;
+        --text-color: #f9fafb;
+        --section-bg: #374151;
+        --card-bg: #4b5563;
+        --card-border: #6b7280;
+        --footer-bg: #374151;
+        --muted-text: #d1d5db;
+      }
+
       body {
         font-family: "Poppins", sans-serif;
-        background: #f9fafb;
-        color: #1f2937;
+        background: var(--body-bg);
+        color: var(--text-color);
         scroll-behavior: smooth;
         margin: 0;
         overflow-x: hidden;
+        transition: background-color 0.3s, color 0.3s;
       }
-      /* Sidebar Navbar */
+
       .sidebar {
         position: fixed;
         top: 0;
-        left: -250px; /* Hidden by default on all devices */
+        left: -250px;
         width: 250px;
         height: 100vh;
         background: linear-gradient(135deg, #2dd4bf, #3b82f6);
@@ -45,47 +56,56 @@
         transition: left 0.3s ease;
         z-index: 1000;
       }
-      .sidebar.active {
-        left: 0; /* Show sidebar when active */
+
+      .section {
+        padding: 60px 15px;
+        background: var(--section-bg);
+        position: relative;
+        transition: background-color 0.3s;
       }
-      /* .sidebar .profile-pic {
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        margin-bottom: 15px;
-        border: 3px solid #fff;
-      } */
-      .sidebar .name {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: #fff;
-        margin-bottom: 20px;
-        text-align: center;
-      }
-      .sidebar .nav-link {
-        color: #fff;
-        font-size: 1.1rem;
-        font-weight: 500;
-        padding: 10px 0;
-        display: flex;
-        align-items: center;
-        width: 100%;
+
+      .project-card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 10px;
+        padding: 15px;
         transition: all 0.3s;
+        margin-bottom: 20px;
       }
-      .sidebar .nav-link i {
-        margin-right: 10px;
-        font-size: 1.2rem;
+
+      .resume-content {
+        background: var(--card-bg);
+        padding: 15px;
+        border-radius: 10px;
+        max-width: 600px;
+        margin: 0 auto;
+        border: 1px solid var(--card-border);
+        transition: background-color 0.3s, border-color 0.3s;
       }
-      .sidebar .nav-link:hover {
-        background: rgba(255, 255, 255, 0.2);
-        border-radius: 5px;
-        padding-left: 10px;
+
+      footer {
+        background: var(--footer-bg);
+        padding: 20px 0;
+        text-align: center;
+        font-size: 0.8rem;
+        color: var(--muted-text);
+        transition: background-color 0.3s;
       }
-      /* Toggle Button */
-      .toggle-btn {
+
+      .about-text {
+        max-width: 700px;
+        margin: 0 auto;
+        font-size: 1rem;
+        color: var(--muted-text);
+        text-align: justify;
+        transition: color 0.3s;
+      }
+
+      /* Theme toggle button */
+      .theme-toggle {
         position: fixed;
         top: 15px;
-        left: 15px;
+        right: 15px;
         background: #3b82f6;
         color: #fff;
         border: none;
@@ -94,154 +114,62 @@
         font-size: 1.2rem;
         cursor: pointer;
         z-index: 1001;
-        transition: left 0.3s ease;
+        transition: background-color 0.3s;
       }
-      .toggle-btn.active {
-        left: 265px; /* Move button when sidebar is open */
-      }
-      /* Main Content */
-      .main-content {
-        margin-left: 0; /* No offset by default */
-        padding: 20px;
-        transition: margin-left 0.3s ease;
-      }
-      .main-content.active {
-        margin-left: 250px; /* Offset when sidebar is open */
-      }
-      .section {
-        padding: 60px 15px;
-        background: #fff;
-      }
-      .section h2 {
-        font-size: 2rem;
-        font-weight: 700;
-        color: #3b82f6;
-        text-align: center;
-        margin-bottom: 30px;
-      }
-      /* About */
-      .about-text {
-        max-width: 700px;
-        margin: 0 auto;
-        font-size: 1rem;
-        color: #4b5563;
-        text-align: justify;
-      }
-      /* Projects */
-      .project-card {
-        background: #f9fafb;
-        border: 1px solid #e5e7eb;
-        border-radius: 10px;
-        padding: 15px;
-        transition: all 0.3s;
-        margin-bottom: 20px;
-      }
-      .project-card:hover {
-        border-color: #2dd4bf;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-      }
-      .project-card h5 {
-        color: #3b82f6;
-        font-weight: 500;
-        font-size: 1.2rem;
-      }
-      .project-card .btn {
+
+      .theme-toggle:hover {
         background: #2dd4bf;
-        border: none;
-        font-size: 0.9rem;
       }
-      .project-card .btn:hover {
-        background: #3b82f6;
-      }
-      /* Resume */
-      .resume-content {
-        background: #f9fafb;
-        padding: 15px;
-        border-radius: 10px;
-        max-width: 600px;
-        margin: 0 auto;
-        border: 1px solid #e5e7eb;
-      }
-      /* Social Links */
-      .social-icons a {
-        color: #2dd4bf;
-        font-size: 1.5rem;
-        margin: 0 10px;
-        text-decoration: none;
-        transition: all 0.3s;
-      }
-      .social-icons a:hover {
-        color: #3b82f6;
-      }
-      /* Footer */
-      footer {
-        background: #e5e7eb;
-        padding: 20px 0;
-        text-align: center;
-        font-size: 0.8rem;
-        color: #4b5563;
-      }
-      /* Mobile Responsiveness */
+
+      /* Rest of your existing CSS remains unchanged */
+      .sidebar.active { left: 0; }
+      .sidebar .name { font-size: 1.5rem; font-weight: 700; color: #fff; margin-bottom: 20px; text-align: center; }
+      .sidebar .nav-link { color: #fff; font-size: 1.1rem; font-weight: 500; padding: 10px 0; display: flex; align-items: center; width: 100%; transition: all 0.3s; }
+      .sidebar .nav-link i { margin-right: 10px; font-size: 1.2rem; }
+      .sidebar .nav-link:hover { background: rgba(255, 255, 255, 0.2); border-radius: 5px; padding-left: 10px; }
+      .toggle-btn { position: fixed; top: 15px; left: 15px; background: #3b82f6; color: #fff; border: none; border-radius: 5px; padding: 8px 12px; font-size: 1.2rem; cursor: pointer; z-index: 1001; transition: left 0.3s ease; }
+      .toggle-btn.active { left: 265px; }
+      .main-content { margin-left: 0; padding: 20px; transition: margin-left 0.3s ease; }
+      .main-content.active { margin-left: 250px; }
+      .section h2 { font-size: 2rem; font-weight: 700; color: #3b82f6; text-align: center; margin-bottom: 30px; }
+      .section-divider { height: 3px; background: linear-gradient(90deg, #2dd4bf, #3b82f6); margin: 40px auto; width: 50%; border-radius: 5px; opacity: 0.8; }
+      #connect + .section-divider { display: none; }
+      .project-card:hover { border-color: #2dd4bf; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); }
+      .project-card h5 { color: #3b82f6; font-weight: 500; font-size: 1.2rem; }
+      .project-card .btn { background: #2dd4bf; border: none; font-size: 0.9rem; }
+      .project-card .btn:hover { background: #3b82f6; }
+      .social-icons a { color: #2dd4bf; font-size: 1.5rem; margin: 0 10px; text-decoration: none; transition: all 0.3s; }
+      .social-icons a:hover { color: #3b82f6; }
+      .landing-section { height: 100vh; background: linear-gradient(135deg, #2dd4bf, #3b82f6); display: flex; justify-content: center; align-items: center; text-align: center; color: #fff; position: relative; overflow: hidden; }
+      .landing-content { z-index: 1; }
+      .landing-section .profile-pic { width: 200px; height: 200px; border-radius: 50%; border: 5px solid #fff; margin-bottom: 20px; object-fit: cover; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); }
+      .landing-section h1 { font-size: 3rem; font-weight: 700; margin-bottom: 10px; }
+      .landing-section p { font-size: 1.2rem; margin-bottom: 30px; color: #e5e7eb; }
+      .landing-section .btn { background: #fff; color: #3b82f6; font-weight: 500; padding: 10px 30px; border-radius: 25px; transition: all 0.3s; }
+      .landing-section .btn:hover { background: #3b82f6; color: #fff; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); }
+      .sidebar .profile-pic { width: 100px; height: 100px; border-radius: 50%; margin-bottom: 15px; border: 3px solid #fff; object-fit: cover; }
+
       @media (max-width: 768px) {
-        .sidebar {
-          width: 200px; /* Slightly smaller on mobile */
-        }
-        .sidebar.active {
-          left: 0;
-        }
-        .toggle-btn.active {
-          left: 215px; /* Adjust for smaller sidebar */
-        }
-        .main-content.active {
-          margin-left: 200px; /* Adjust for smaller sidebar */
-        }
-        .sidebar .profile-pic {
-          width: 80px;
-          height: 80px;
-        }
-        .sidebar .name {
-          font-size: 1.2rem;
-        }
-        .sidebar .nav-link {
-          font-size: 1rem;
-        }
-        .section {
-          padding: 40px 10px;
-        }
-        .section h2 {
-          font-size: 1.8rem;
-        }
-        .about-text {
-          font-size: 0.9rem;
-        }
-        .project-card {
-          padding: 10px;
-        }
-        .project-card h5 {
-          font-size: 1.1rem;
-        }
-        .project-card .btn {
-          font-size: 0.8rem;
-        }
-        .resume-content {
-          padding: 10px;
-          font-size: 0.9rem;
-        }
-        .social-icons a {
-          font-size: 1.3rem;
-          margin: 0 8px;
-        }
-        footer {
-          font-size: 0.7rem;
-        }
-      }
-      .sidebar .profile-pic {
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        margin-bottom: 15px;
-        border: 3px solid #fff;
-        object-fit: cover;
+        .sidebar { width: 200px; }
+        .sidebar.active { left: 0; }
+        .toggle-btn.active { left: 215px; }
+        .main-content.active { margin-left: 200px; }
+        .sidebar .profile-pic { width: 80px; height: 80px; }
+        .sidebar .name { font-size: 1.2rem; }
+        .sidebar .nav-link { font-size: 1rem; }
+        .section { padding: 40px 10px; }
+        .section h2 { font-size: 1.8rem; }
+        .about-text { font-size: 0.9rem; }
+        .project-card { padding: 10px; }
+        .project-card h5 { font-size: 1.1rem; }
+        .project-card .btn { font-size: 0.8rem; }
+        .resume-content { padding: 10px; font-size: 0.9rem; }
+        .social-icons a { font-size: 1.3rem; margin: 0 8px; }
+        .landing-section .profile-pic { width: 150px; height: 150px; }
+        .landing-section h1 { font-size: 2rem; }
+        .landing-section p { font-size: 1rem; }
+        .section-divider { width: 70%; margin: 30px auto; }
+        footer { font-size: 0.7rem; }
       }
     </style>
   </head>
@@ -251,28 +179,39 @@
       <i class="fas fa-bars"></i>
     </button>
 
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" onclick="toggleTheme()">
+      <i class="fas fa-moon"></i>
+    </button>
+
     <!-- Sidebar Navbar -->
     <nav class="sidebar" id="sidebar">
-      <img
-        src="ishan.jpg"
-        alt="Profile Picture"
-        class="profile-pic"
-      />
+      <img src="ishan.jpg" alt="Profile Picture" class="profile-pic" />
       <div class="name">Ishan Ahmed</div>
+      <a href="#landing" class="nav-link"><i class="fas fa-home"></i> Home</a>
       <a href="#about" class="nav-link"><i class="fas fa-user"></i> About</a>
-      <a href="#projects" class="nav-link"
-        ><i class="fas fa-folder-open"></i> Projects</a
-      >
-      <a href="#resume" class="nav-link"
-        ><i class="fas fa-file-alt"></i> Resume</a
-      >
-      <a href="#connect" class="nav-link"
-        ><i class="fas fa-envelope"></i> Connect</a
-      >
+      <a href="#projects" class="nav-link"><i class="fas fa-folder-open"></i> Projects</a>
+      <a href="#resume" class="nav-link"><i class="fas fa-file-alt"></i> Resume</a>
+      <a href="#connect" class="nav-link"><i class="fas fa-envelope"></i> Connect</a>
     </nav>
+
     <!-- Main Content -->
     <div class="main-content" id="main-content">
-      <!-- About Me Section -->
+      <!-- Your existing sections remain unchanged -->
+      <section id="landing" class="landing-section">
+        <div class="landing-content">
+          <img src="ishan.jpg" alt="Profile Picture" class="profile-pic animate__animated animate__zoomIn" />
+          <h1 class="animate__animated animate__fadeInDown">Hi, I'm Ishan Ahmed</h1>
+          <p class="animate__animated animate__fadeInUp animate__delay-1s">
+            A Data Science Enthusiast | MSc Data Science at University of Greenwich
+          </p>
+          <a href="#about" class="btn animate__animated animate__bounceIn animate__delay-2s">
+            Continue to Portfolio
+          </a>
+        </div>
+      </section>
+      <div class="section-divider"></div>
+
       <section id="about" class="section">
         <div class="container">
           <h2>About Me</h2>
@@ -288,216 +227,229 @@
           </p>
         </div>
       </section>
-
-      <!-- Projects Section -->
-      <section id="projects" class="section">
-        <div class="container">
-          <h2>Projects</h2>
-          <div class="row">
-            <div class="col-md-4 col-12">
-              <div class="card project-card">
-                <div class="card-body">
-                  <h5 class="card-title">
-                    Petition Topic Classification Using ML
-                  </h5>
-                  <p class="card-text">
-                    Built a machine learning model to classify petition topics
-                    from a dataset of 8,000+ texts, achieving 91% accuracy.
-                    Preprocessed data with NLTK and TF-IDF, and optimized a
-                    LinearSVC model using GridSearchCV.
-                  </p>
-                  <p>
-                    <strong>Tools:</strong> Python, Pandas, NLTK, Scikit-learn,
-                    Google Colab
-                  </p>
-                  <p><strong>Duration:</strong> [03/2025]</p>
-                  <a
-                    href="https://github.com/Ishanahmed07/Petition-Topic-Classifier"
-                    class="btn btn-primary btn-sm"
-                    >View Project</a
-                  >
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4 col-12">
-              <div class="card project-card">
-                <div class="card-body">
-                  <h5 class="card-title">
-                    Sign Language Recognition Using ML Technologies
-                  </h5>
-                  <p class="card-text">
-                    Developed a system for interpreting and responding to human
-                    hand gestures using cameras and sensors to aid communication
-                    for deaf and mute individuals.
-                  </p>
-                  <p><strong>Tools:</strong> Python, Machine Learning</p>
-                  <p><strong>Duration:</strong> 07/2021 - 05/2022</p>
-                  <a
-                    href="https://github.com/Ishanahmed07/Hand-Gesture-Recognition"
-                    class="btn btn-primary btn-sm"
-                    >View Project</a
-                  >
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4 col-12">
-              <div class="card project-card">
-                <div class="card-body">
-                  <h5 class="card-title">Image Mosaicing</h5>
-                  <p class="card-text">
-                    Designed a Computer Vision algorithm for stitching multiple
-                    images into a panorama using keypoint detection (SIFT),
-                    matching, RANSAC, and Homography matrices.
-                  </p>
-                  <p><strong>Tools:</strong> Computer Vision, Python</p>
-                  <p><strong>Duration:</strong> 07/2022 - 05/2023</p>
-                  <a
-                    href="https://github.com/Ishanahmed07/Image-Mosaicing"
-                    class="btn btn-primary btn-sm"
-                    >View Project</a
-                  >
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4 col-12">
-              <div class="card project-card">
-                <div class="card-body">
-                  <h5 class="card-title">Crypto Tracker</h5>
-                  <p class="card-text">
-                    Created a real-time cryptocurrency price tracker with live
-                    data from major exchanges, featuring search functionality
-                    and dynamic price updates.
-                  </p>
-                  <p><strong>Tools:</strong> HTML, CSS, JavaScript, APIs</p>
-                  <p><strong>Duration:</strong> 05/2023 - 06/2023</p>
-                  <a
-                    href="https://github.com/Ishanahmed07/CryptoTrackerProject"
-                    class="btn btn-primary btn-sm"
-                    >View Project</a
-                  >
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4 col-12">
-              <div class="card project-card">
-                <div class="card-body">
-                  <h5 class="card-title">TIFR Authentication</h5>
-                  <p class="card-text">
-                    Developed a secure login system with form validation and
-                    user authentication, enhancing proficiency in frontend
-                    design, backend logic, and web security principles.
-                  </p>
-                  <p><strong>Tools:</strong> HTML, CSS, PHP</p>
-                  <p><strong>Duration:</strong> 07/2023 - 08/2023</p>
-                  <a
-                    href="https://github.com/Ishanahmed07/LoginFormUsingPHP"
-                    class="btn btn-primary btn-sm"
-                    >View Project</a
-                  >
-                </div>
-              </div>
+      <div class="section-divider"></div>
+  <!-- Projects Section -->
+  <section id="projects" class="section">
+    <div class="container">
+      <h2>Projects</h2>
+      <div class="row">
+        <div class="col-md-4 col-12">
+          <div class="card project-card">
+            <div class="card-body">
+              <h5 class="card-title">
+                Petition Topic Classification Using ML
+              </h5>
+              <p class="card-text">
+                Built a machine learning model to classify petition topics
+                from a dataset of 8,000+ texts, achieving 91% accuracy.
+                Preprocessed data with NLTK and TF-IDF, and optimized a
+                LinearSVC model using GridSearchCV.
+              </p>
+              <p>
+                <strong>Tools:</strong> Python, Pandas, NLTK, Scikit-learn,
+                Google Colab
+              </p>
+              <p><strong>Duration:</strong> [03/2025]</p>
+              <a
+                href="https://github.com/Ishanahmed07/Petition-Topic-Classifier"
+                class="btn btn-primary btn-sm"
+                >View Project</a
+              >
             </div>
           </div>
         </div>
-      </section>
-      <!-- Resume Section -->
-      <section id="resume" class="section">
-        <div class="container">
-          <h2>Resume</h2>
-          <div class="resume-content">
-            <p><strong>Education:</strong></p>
-            <p>
-              University of Greenwich, MSc Data Science, London, UK (01/2025 -
-              Present)
-            </p>
-            <p>
-              M.H. Saboo Siddik College of Engineering, Bachelor of Engineering
-              - Computer Engineering, Mumbai, India (07/2020 - 05/2024, GPA:
-              9.29/10)
-            </p>
-            <p>
-              Anjuman Anwarul Islam High School, Higher Secondary Certificate,
-              Akola, India (07/2018 - 05/2020, Grade: 80.31%)
-            </p>
-            <p><strong>Work Experience:</strong></p>
-            <p>
-              Project Intern at Tata Institute of Fundamental Research, Mumbai,
-              India (07/2023 - 03/2024)
-            </p>
-            <ul>
-              <li>Built design components in React with UI/UX engagement</li>
-              <li>
-                Utilized React hooks, Redux, and Context API for state
-                management
-              </li>
-              <li>Implemented React Router for client-side navigation</li>
-              <li>Styled components with Tailwind CSS</li>
-              <li>Integrated RESTful APIs and third-party services</li>
-            </ul>
-            <p>
-              <strong>Skills:</strong> Python, PHP, SQL, HTML, CSS, Basic
-              knowledge of R and MATLAB, Microsoft Office (Word, Excel,
-              PowerPoint), Tableau, Power BI, Git, GitHub
-            </p>
-            <p><strong>Extra-Curricular Activities:</strong></p>
-            <p>
-              Volunteer at Agastya International Foundation, Mumbai, India
-              (09/2022 - 03/2023)
-            </p>
-            <p>
-              Event Manager at Computer Society of India - MHSCCE Chapter,
-              Mumbai, India (09/2023 - 05/2024)
-            </p>
-            <p>
-              Treasurer at Entrepreneurship Development Cell, Mumbai, India
-              (09/2022 - 05/2023)
-            </p>
-            <a
-              href="https://drive.google.com/uc?export=download&id=1vA-WcboT9SlID1D_y45xEIxBRXWmxp-j"
-              class="btn btn-outline-primary mt-3"
-              download
-              >Download Resume</a
-            >
+        <div class="col-md-4 col-12">
+          <div class="card project-card">
+            <div class="card-body">
+              <h5 class="card-title">Petition Importance Prediction Using ML</h5>
+              <p class="card-text">
+                Developed a machine learning model to predict petition importance from a dataset of 8,898 petitions, achieving 90% accuracy. Preprocessed text with NLTK and TF-IDF, and optimized a Logistic Regression model using GridSearchCV.
+              </p>
+              <p><strong>Tools:</strong> Python, Pandas, NLTK, Scikit-learn, Google Colab</p>
+              <p><strong>Duration:</strong> [03/2025]</p>
+              <a href="https://github.com/Ishanahmed07/Petition-Importance-Predictor" class="btn btn-primary btn-sm">View Project</a>
+            </div>
           </div>
         </div>
-      </section>
-
-      <!-- Connect Section -->
-      <section id="connect" class="section">
-        <div class="container text-center">
-          <h2>Connect With Me</h2>
-          <p>
-            Email:
-            <a href="mailto:ishanahmed9660@gmail.com"
-              >ishanahmed9660@gmail.com</a
-            >
-          </p>
-          <p>Phone UK: +44 7587661321</p>
-          <p>Phone IND: +91 8760767786</p>
-          <div class="social-icons">
-            <a
-              href="https://www.linkedin.com/in/ishan-ahmed-4b13b4208"
-              target="_blank"
-              ><i class="fab fa-linkedin"></i
-            ></a>
-            <a href="https://github.com/Ishanahmed07" target="_blank"
-              ><i class="fab fa-github"></i
-            ></a>
+        <div class="col-md-4 col-12">
+          <div class="card project-card">
+            <div class="card-body">
+              <h5 class="card-title">
+                Sign Language Recognition Using ML Technologies
+              </h5>
+              <p class="card-text">
+                Developed a system for interpreting and responding to human
+                hand gestures using cameras and sensors to aid communication
+                for deaf and mute individuals.
+              </p>
+              <p><strong>Tools:</strong> Python, Machine Learning</p>
+              <p><strong>Duration:</strong> 07/2021 - 05/2022</p>
+              <a
+                href="https://github.com/Ishanahmed07/Hand-Gesture-Recognition"
+                class="btn btn-primary btn-sm"
+                >View Project</a
+              >
+            </div>
           </div>
         </div>
-      </section>
+        <div class="col-md-4 col-12">
+          <div class="card project-card">
+            <div class="card-body">
+              <h5 class="card-title">Image Mosaicing</h5>
+              <p class="card-text">
+                Designed a Computer Vision algorithm for stitching multiple
+                images into a panorama using keypoint detection (SIFT),
+                matching, RANSAC, and Homography matrices.
+              </p>
+              <p><strong>Tools:</strong> Computer Vision, Python</p>
+              <p><strong>Duration:</strong> 07/2022 - 05/2023</p>
+              <a
+                href="https://github.com/Ishanahmed07/Image-Mosaicing"
+                class="btn btn-primary btn-sm"
+                >View Project</a
+              >
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-12">
+          <div class="card project-card">
+            <div class="card-body">
+              <h5 class="card-title">Crypto Tracker</h5>
+              <p class="card-text">
+                Created a real-time cryptocurrency price tracker with live
+                data from major exchanges, featuring search functionality
+                and dynamic price updates.
+              </p>
+              <p><strong>Tools:</strong> HTML, CSS, JavaScript, APIs</p>
+              <p><strong>Duration:</strong> 05/2023 - 06/2023</p>
+              <a
+                href="https://github.com/Ishanahmed07/CryptoTrackerProject"
+                class="btn btn-primary btn-sm"
+                >View Project</a
+              >
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-12">
+          <div class="card project-card">
+            <div class="card-body">
+              <h5 class="card-title">TIFR Authentication</h5>
+              <p class="card-text">
+                Developed a secure login system with form validation and
+                user authentication, enhancing proficiency in frontend
+                design, backend logic, and web security principles.
+              </p>
+              <p><strong>Tools:</strong> HTML, CSS, PHP</p>
+              <p><strong>Duration:</strong> 07/2023 - 08/2023</p>
+              <a
+                href="https://github.com/Ishanahmed07/LoginFormUsingPHP"
+                class="btn btn-primary btn-sm"
+                >View Project</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="section-divider"></div>
 
-      <!-- Footer -->
+  <!-- Resume Section -->
+  <section id="resume" class="section">
+    <div class="container">
+      <h2>Resume</h2>
+      <div class="resume-content">
+        <p><strong>Education:</strong></p>
+        <p>
+          University of Greenwich, MSc Data Science, London, UK (01/2025 -
+          Present)
+        </p>
+        <p>
+          M.H. Saboo Siddik College of Engineering, Bachelor of Engineering
+          - Computer Engineering, Mumbai, India (07/2020 - 05/2024, GPA:
+          9.29/10)
+        </p>
+        <p>
+          Anjuman Anwarul Islam High School, Higher Secondary Certificate,
+          Akola, India (07/2018 - 05/2020, Grade: 80.31%)
+        </p>
+        <p><strong>Work Experience:</strong></p>
+        <p>
+          Project Intern at Tata Institute of Fundamental Research, Mumbai,
+          India (07/2023 - 03/2024)
+        </p>
+        <ul>
+          <li>Built design components in React with UI/UX engagement</li>
+          <li>
+            Utilized React hooks, Redux, and Context API for state
+            management
+          </li>
+          <li>Implemented React Router for client-side navigation</li>
+          <li>Styled components with Tailwind CSS</li>
+          <li>Integrated RESTful APIs and third-party services</li>
+        </ul>
+        <p>
+          <strong>Skills:</strong> Python, PHP, SQL, HTML, CSS, Basic
+          knowledge of R and MATLAB, Microsoft Office (Word, Excel,
+          PowerPoint), Tableau, Power BI, Git, GitHub
+        </p>
+        <p><strong>Extra-Curricular Activities:</strong></p>
+        <p>
+          Volunteer at Agastya International Foundation, Mumbai, India
+          (09/2022 - 03/2023)
+        </p>
+        <p>
+          Event Manager at Computer Society of India - MHSCCE Chapter,
+          Mumbai, India (09/2023 - 05/2024)
+        </p>
+        <p>
+          Treasurer at Entrepreneurship Development Cell, Mumbai, India
+          (09/2022 - 05/2023)
+        </p>
+        <a
+          href="https://drive.google.com/uc?export=download&id=1vA-WcboT9SlID1D_y45xEIxBRXWmxp-j"
+          class="btn btn-outline-primary mt-3"
+          download
+          >Download Resume</a
+        >
+      </div>
+    </div>
+  </section>
+  <div class="section-divider"></div>
+
+  <!-- Connect Section -->
+  <section id="connect" class="section">
+    <div class="container text-center">
+      <h2>Connect With Me</h2>
+      <p>
+        Email:
+        <a href="/cdn-cgi/l/email-protection#b0d9c3d8d1ded1d8ddd5d489868680f0d7ddd1d9dc9ed3dfdd"><span class="__cf_email__" data-cfemail="0d647e656c636c65606869343b3b3d4d6a606c6461236e6260">ishanahmed9660@gmail.com</span></a
+        >
+      </p>
+      <p>Phone UK: +44 7587661321</p>
+      <p>Phone IND: +91 8760767786</p>
+      <div class="social-icons">
+        <a
+          href="https://www.linkedin.com/in/ishan-ahmed-4b13b4208"
+          target="_blank"
+          ><i class="fab fa-linkedin"></i
+        ></a>
+        <a href="https://github.com/Ishanahmed07" target="_blank"
+          ><i class="fab fa-github"></i
+        ></a>
+      </div>
+    </div>
+  </section>
+  <div class="section-divider"></div>
+
       <footer>
         <div class="container">
-          <p>© 2025 Ishan Ahmed. All rights reserved.</p>
+          <p>© Ishan Ahmed</p>
         </div>
       </footer>
     </div>
 
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- JavaScript for Toggle -->
     <script>
       function toggleSidebar() {
         const sidebar = document.getElementById("sidebar");
@@ -508,6 +460,36 @@
         mainContent.classList.toggle("active");
         toggleBtn.classList.toggle("active");
       }
+
+      function toggleTheme() {
+        const body = document.body;
+        const themeToggleBtn = document.querySelector(".theme-toggle i");
+        const currentTheme = body.getAttribute("data-theme");
+
+        if (currentTheme === "dark") {
+          body.removeAttribute("data-theme");
+          themeToggleBtn.classList.remove("fa-sun");
+          themeToggleBtn.classList.add("fa-moon");
+          localStorage.setItem("theme", "light");
+        } else {
+          body.setAttribute("data-theme", "dark");
+          themeToggleBtn.classList.remove("fa-moon");
+          themeToggleBtn.classList.add("fa-sun");
+          localStorage.setItem("theme", "dark");
+        }
+      }
+
+      // Load saved theme on page load
+      document.addEventListener("DOMContentLoaded", () => {
+        const savedTheme = localStorage.getItem("theme");
+        const themeToggleBtn = document.querySelector(".theme-toggle i");
+        
+        if (savedTheme === "dark") {
+          document.body.setAttribute("data-theme", "dark");
+          themeToggleBtn.classList.remove("fa-moon");
+          themeToggleBtn.classList.add("fa-sun");
+        }
+      });
     </script>
   </body>
 </html>
