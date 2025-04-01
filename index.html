@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ishan Ahmed - Data Science Portfolio</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome for Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Custom CSS -->
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        background: #f9fafb;
+        color: #1f2937;
+        scroll-behavior: smooth;
+        margin: 0;
+        overflow-x: hidden;
+      }
+      /* Sidebar Navbar */
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: -250px; /* Hidden by default on all devices */
+        width: 250px;
+        height: 100vh;
+        background: linear-gradient(135deg, #2dd4bf, #3b82f6);
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        transition: left 0.3s ease;
+        z-index: 1000;
+      }
+      .sidebar.active {
+        left: 0; /* Show sidebar when active */
+      }
+      /* .sidebar .profile-pic {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        margin-bottom: 15px;
+        border: 3px solid #fff;
+      } */
+      .sidebar .name {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+      .sidebar .nav-link {
+        color: #fff;
+        font-size: 1.1rem;
+        font-weight: 500;
+        padding: 10px 0;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        transition: all 0.3s;
+      }
+      .sidebar .nav-link i {
+        margin-right: 10px;
+        font-size: 1.2rem;
+      }
+      .sidebar .nav-link:hover {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 5px;
+        padding-left: 10px;
+      }
+      /* Toggle Button */
+      .toggle-btn {
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        background: #3b82f6;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 8px 12px;
+        font-size: 1.2rem;
+        cursor: pointer;
+        z-index: 1001;
+        transition: left 0.3s ease;
+      }
+      .toggle-btn.active {
+        left: 265px; /* Move button when sidebar is open */
+      }
+      /* Main Content */
+      .main-content {
+        margin-left: 0; /* No offset by default */
+        padding: 20px;
+        transition: margin-left 0.3s ease;
+      }
+      .main-content.active {
+        margin-left: 250px; /* Offset when sidebar is open */
+      }
+      .section {
+        padding: 60px 15px;
+        background: #fff;
+      }
+      .section h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #3b82f6;
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      /* About */
+      .about-text {
+        max-width: 700px;
+        margin: 0 auto;
+        font-size: 1rem;
+        color: #4b5563;
+        text-align: justify;
+      }
+      /* Projects */
+      .project-card {
+        background: #f9fafb;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        padding: 15px;
+        transition: all 0.3s;
+        margin-bottom: 20px;
+      }
+      .project-card:hover {
+        border-color: #2dd4bf;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+      .project-card h5 {
+        color: #3b82f6;
+        font-weight: 500;
+        font-size: 1.2rem;
+      }
+      .project-card .btn {
+        background: #2dd4bf;
+        border: none;
+        font-size: 0.9rem;
+      }
+      .project-card .btn:hover {
+        background: #3b82f6;
+      }
+      /* Resume */
+      .resume-content {
+        background: #f9fafb;
+        padding: 15px;
+        border-radius: 10px;
+        max-width: 600px;
+        margin: 0 auto;
+        border: 1px solid #e5e7eb;
+      }
+      /* Social Links */
+      .social-icons a {
+        color: #2dd4bf;
+        font-size: 1.5rem;
+        margin: 0 10px;
+        text-decoration: none;
+        transition: all 0.3s;
+      }
+      .social-icons a:hover {
+        color: #3b82f6;
+      }
+      /* Footer */
+      footer {
+        background: #e5e7eb;
+        padding: 20px 0;
+        text-align: center;
+        font-size: 0.8rem;
+        color: #4b5563;
+      }
+      /* Mobile Responsiveness */
+      @media (max-width: 768px) {
+        .sidebar {
+          width: 200px; /* Slightly smaller on mobile */
+        }
+        .sidebar.active {
+          left: 0;
+        }
+        .toggle-btn.active {
+          left: 215px; /* Adjust for smaller sidebar */
+        }
+        .main-content.active {
+          margin-left: 200px; /* Adjust for smaller sidebar */
+        }
+        .sidebar .profile-pic {
+          width: 80px;
+          height: 80px;
+        }
+        .sidebar .name {
+          font-size: 1.2rem;
+        }
+        .sidebar .nav-link {
+          font-size: 1rem;
+        }
+        .section {
+          padding: 40px 10px;
+        }
+        .section h2 {
+          font-size: 1.8rem;
+        }
+        .about-text {
+          font-size: 0.9rem;
+        }
+        .project-card {
+          padding: 10px;
+        }
+        .project-card h5 {
+          font-size: 1.1rem;
+        }
+        .project-card .btn {
+          font-size: 0.8rem;
+        }
+        .resume-content {
+          padding: 10px;
+          font-size: 0.9rem;
+        }
+        .social-icons a {
+          font-size: 1.3rem;
+          margin: 0 8px;
+        }
+        footer {
+          font-size: 0.7rem;
+        }
+      }
+      .sidebar .profile-pic {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        margin-bottom: 15px;
+        border: 3px solid #fff;
+        object-fit: cover;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Toggle Button -->
+    <button class="toggle-btn" onclick="toggleSidebar()">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Sidebar Navbar -->
+    <nav class="sidebar" id="sidebar">
+      <img
+        src="ishan.jpg"
+        alt="Profile Picture"
+        class="profile-pic"
+      />
+      <div class="name">Ishan Ahmed</div>
+      <a href="#about" class="nav-link"><i class="fas fa-user"></i> About</a>
+      <a href="#projects" class="nav-link"
+        ><i class="fas fa-folder-open"></i> Projects</a
+      >
+      <a href="#resume" class="nav-link"
+        ><i class="fas fa-file-alt"></i> Resume</a
+      >
+      <a href="#connect" class="nav-link"
+        ><i class="fas fa-envelope"></i> Connect</a
+      >
+    </nav>
+    <!-- Main Content -->
+    <div class="main-content" id="main-content">
+      <!-- About Me Section -->
+      <section id="about" class="section">
+        <div class="container">
+          <h2>About Me</h2>
+          <p class="about-text">
+            Hi, I’m Ishan Ahmed, a Data Science enthusiast currently pursuing an
+            MSc in Data Science at the University of Greenwich, London. With a
+            Bachelor’s in Computer Engineering from M.H. Saboo Siddik College of
+            Engineering (GPA: 9.29/10), I specialize in machine learning, big
+            data analytics, and AI applications. I have hands-on experience as a
+            Project Intern at Tata Institute of Fundamental Research, where I
+            built design components using React and integrated RESTful APIs. My
+            interests include coding, traveling, football, and badminton.
+          </p>
+        </div>
+      </section>
+
+      <!-- Projects Section -->
+      <section id="projects" class="section">
+        <div class="container">
+          <h2>Projects</h2>
+          <div class="row">
+            <div class="col-md-4 col-12">
+              <div class="card project-card">
+                <div class="card-body">
+                  <h5 class="card-title">
+                    Petition Topic Classification Using ML
+                  </h5>
+                  <p class="card-text">
+                    Built a machine learning model to classify petition topics
+                    from a dataset of 8,000+ texts, achieving 91% accuracy.
+                    Preprocessed data with NLTK and TF-IDF, and optimized a
+                    LinearSVC model using GridSearchCV.
+                  </p>
+                  <p>
+                    <strong>Tools:</strong> Python, Pandas, NLTK, Scikit-learn,
+                    Google Colab
+                  </p>
+                  <p><strong>Duration:</strong> [03/2025]</p>
+                  <a
+                    href="https://github.com/Ishanahmed07/Petition-Topic-Classifier"
+                    class="btn btn-primary btn-sm"
+                    >View Project</a
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-12">
+              <div class="card project-card">
+                <div class="card-body">
+                  <h5 class="card-title">
+                    Sign Language Recognition Using ML Technologies
+                  </h5>
+                  <p class="card-text">
+                    Developed a system for interpreting and responding to human
+                    hand gestures using cameras and sensors to aid communication
+                    for deaf and mute individuals.
+                  </p>
+                  <p><strong>Tools:</strong> Python, Machine Learning</p>
+                  <p><strong>Duration:</strong> 07/2021 - 05/2022</p>
+                  <a
+                    href="https://github.com/Ishanahmed07/Hand-Gesture-Recognition"
+                    class="btn btn-primary btn-sm"
+                    >View Project</a
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-12">
+              <div class="card project-card">
+                <div class="card-body">
+                  <h5 class="card-title">Image Mosaicing</h5>
+                  <p class="card-text">
+                    Designed a Computer Vision algorithm for stitching multiple
+                    images into a panorama using keypoint detection (SIFT),
+                    matching, RANSAC, and Homography matrices.
+                  </p>
+                  <p><strong>Tools:</strong> Computer Vision, Python</p>
+                  <p><strong>Duration:</strong> 07/2022 - 05/2023</p>
+                  <a
+                    href="https://github.com/Ishanahmed07/Image-Mosaicing"
+                    class="btn btn-primary btn-sm"
+                    >View Project</a
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-12">
+              <div class="card project-card">
+                <div class="card-body">
+                  <h5 class="card-title">Crypto Tracker</h5>
+                  <p class="card-text">
+                    Created a real-time cryptocurrency price tracker with live
+                    data from major exchanges, featuring search functionality
+                    and dynamic price updates.
+                  </p>
+                  <p><strong>Tools:</strong> HTML, CSS, JavaScript, APIs</p>
+                  <p><strong>Duration:</strong> 05/2023 - 06/2023</p>
+                  <a
+                    href="https://github.com/Ishanahmed07/CryptoTrackerProject"
+                    class="btn btn-primary btn-sm"
+                    >View Project</a
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-12">
+              <div class="card project-card">
+                <div class="card-body">
+                  <h5 class="card-title">TIFR Authentication</h5>
+                  <p class="card-text">
+                    Developed a secure login system with form validation and
+                    user authentication, enhancing proficiency in frontend
+                    design, backend logic, and web security principles.
+                  </p>
+                  <p><strong>Tools:</strong> HTML, CSS, PHP</p>
+                  <p><strong>Duration:</strong> 07/2023 - 08/2023</p>
+                  <a
+                    href="https://github.com/Ishanahmed07/LoginFormUsingPHP"
+                    class="btn btn-primary btn-sm"
+                    >View Project</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Resume Section -->
+      <section id="resume" class="section">
+        <div class="container">
+          <h2>Resume</h2>
+          <div class="resume-content">
+            <p><strong>Education:</strong></p>
+            <p>
+              University of Greenwich, MSc Data Science, London, UK (01/2025 -
+              Present)
+            </p>
+            <p>
+              M.H. Saboo Siddik College of Engineering, Bachelor of Engineering
+              - Computer Engineering, Mumbai, India (07/2020 - 05/2024, GPA:
+              9.29/10)
+            </p>
+            <p>
+              Anjuman Anwarul Islam High School, Higher Secondary Certificate,
+              Akola, India (07/2018 - 05/2020, Grade: 80.31%)
+            </p>
+            <p><strong>Work Experience:</strong></p>
+            <p>
+              Project Intern at Tata Institute of Fundamental Research, Mumbai,
+              India (07/2023 - 03/2024)
+            </p>
+            <ul>
+              <li>Built design components in React with UI/UX engagement</li>
+              <li>
+                Utilized React hooks, Redux, and Context API for state
+                management
+              </li>
+              <li>Implemented React Router for client-side navigation</li>
+              <li>Styled components with Tailwind CSS</li>
+              <li>Integrated RESTful APIs and third-party services</li>
+            </ul>
+            <p>
+              <strong>Skills:</strong> Python, PHP, SQL, HTML, CSS, Basic
+              knowledge of R and MATLAB, Microsoft Office (Word, Excel,
+              PowerPoint), Tableau, Power BI, Git, GitHub
+            </p>
+            <p><strong>Extra-Curricular Activities:</strong></p>
+            <p>
+              Volunteer at Agastya International Foundation, Mumbai, India
+              (09/2022 - 03/2023)
+            </p>
+            <p>
+              Event Manager at Computer Society of India - MHSCCE Chapter,
+              Mumbai, India (09/2023 - 05/2024)
+            </p>
+            <p>
+              Treasurer at Entrepreneurship Development Cell, Mumbai, India
+              (09/2022 - 05/2023)
+            </p>
+            <a
+              href="https://drive.google.com/uc?export=download&id=1vA-WcboT9SlID1D_y45xEIxBRXWmxp-j"
+              class="btn btn-outline-primary mt-3"
+              download
+              >Download Resume</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <!-- Connect Section -->
+      <section id="connect" class="section">
+        <div class="container text-center">
+          <h2>Connect With Me</h2>
+          <p>
+            Email:
+            <a href="mailto:ishanahmed9660@gmail.com"
+              >ishanahmed9660@gmail.com</a
+            >
+          </p>
+          <p>Phone UK: +44 7587661321</p>
+          <p>Phone IND: +91 8760767786</p>
+          <div class="social-icons">
+            <a
+              href="https://www.linkedin.com/in/ishan-ahmed-4b13b4208"
+              target="_blank"
+              ><i class="fab fa-linkedin"></i
+            ></a>
+            <a href="https://github.com/Ishanahmed07" target="_blank"
+              ><i class="fab fa-github"></i
+            ></a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer>
+        <div class="container">
+          <p>© 2025 Ishan Ahmed. All rights reserved.</p>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- JavaScript for Toggle -->
+    <script>
+      function toggleSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        const mainContent = document.getElementById("main-content");
+        const toggleBtn = document.querySelector(".toggle-btn");
+
+        sidebar.classList.toggle("active");
+        mainContent.classList.toggle("active");
+        toggleBtn.classList.toggle("active");
+      }
+    </script>
+  </body>
+</html>
